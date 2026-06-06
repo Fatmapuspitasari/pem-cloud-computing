@@ -1,255 +1,435 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kelas C SI 2023</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SI-C 2023 | UDB Surakarta</title>
+    <style>
+        /* --- GOOGLE FONTS --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-<link rel="stylesheet" href="style.css">
+        /* --- ROOT VARIABLES --- */
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --primary-color: #8b5cf6;
+            --secondary-color: #06b6d4;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+        }
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+        /* --- GENERAL STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
 
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* --- HERO SECTION --- */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: radial-gradient(circle at center, rgba(139, 92, 246, 0.2) 0%, rgba(15, 23, 42, 1) 70%);
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        header h1 span {
+            color: var(--secondary-color);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        /* Typing Effect Container */
+        .typing-text {
+            border-right: 3px solid var(--primary-color);
+            white-space: nowrap;
+            overflow: hidden;
+            animation: blink 0.75s step-end infinite;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            height: 2rem;
+        }
+
+        .btn-explore {
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+            transition: 0.3s;
+        }
+
+        .btn-explore:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.6);
+        }
+
+        /* --- SECTION STRUCTURE --- */
+        section {
+            padding: 100px 8% 80px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 4px;
+            background: var(--secondary-color);
+            border-radius: 2px;
+        }
+
+        /* --- ABOUT SECTION --- */
+        .about-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* --- STRUCTURAL / CARDS SECTION --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- GALLERY SECTION --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 250px;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: 0.5s;
+            backdrop-filter: blur(3px);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay p {
+            font-weight: 600;
+            transform: translateY(20px);
+            transition: 0.5s;
+        }
+
+        .gallery-item:hover .gallery-overlay p {
+            transform: translateY(0);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #090d16;
+            text-align: center;
+            padding: 30px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary-color); }
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Untuk simplifikasi */
+            header h1 { font-size: 2.5rem; }
+            .about-container { flex-direction: column; text-align: center; }
+        }
+    </style>
 </head>
 <body>
 
-<nav id="navbar">
-    <div class="logo">
-        SI 2023 - C
-    </div>
-
-    <ul>
-        <li><a href="#about">Tentang</a></li>
-        <li><a href="#visi">Visi Misi</a></li>
-        <li><a href="#pengurus">Pengurus</a></li>
-        <li><a href="#galeri">Galeri</a></li>
-        <li><a href="#kontak">Kontak</a></li>
-    </ul>
-</nav>
-
-<section class="hero">
-
-<div class="overlay"></div>
-
-<div class="hero-content">
-
-<h1>KELAS C</h1>
-
-<h2>Sistem Informasi Angkatan 2023</h2>
-
-<p>
-Universitas Duta Bangsa Surakarta
-</p>
-
-<a href="#about" class="btn">
-Jelajahi
-</a>
-
-</div>
-
-</section>
-
-<section id="about">
-
-<div class="container">
-
-<h2>Tentang Kelas</h2>
-
-<p>
-Kelas C Sistem Informasi Angkatan 2023 merupakan salah satu kelas
-aktif dan inovatif di Universitas Duta Bangsa Surakarta.
-Mahasiswa dalam kelas ini memiliki semangat tinggi dalam bidang
-teknologi informasi, pengembangan sistem, analisis data,
-dan transformasi digital.
-</p>
-
-</div>
-
-</section>
-
-<section id="visi">
-
-<div class="container">
-
-<h2>Visi & Misi</h2>
-
-<div class="visi-grid">
-
-<div class="card">
-<i class="fas fa-bullseye"></i>
-<h3>Visi</h3>
-
-<p>
-Menjadi kelas yang unggul, kolaboratif, kreatif,
-dan berprestasi dalam bidang Sistem Informasi.
-</p>
-
-</div>
-
-<div class="card">
-<i class="fas fa-rocket"></i>
-<h3>Misi</h3>
-
-<p>
-Membangun budaya belajar, inovasi teknologi,
-serta meningkatkan kompetensi akademik dan organisasi.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<section class="statistik">
-
-<div class="box">
-<h2 id="mahasiswa">0</h2>
-<p>Mahasiswa</p>
-</div>
-
-<div class="box">
-<h2 id="event">0</h2>
-<p>Kegiatan</p>
-</div>
-
-<div class="box">
-<h2 id="proyek">0</h2>
-<p>Proyek</p>
-</div>
-
-</section>
-
-<section id="pengurus">
-
-<div class="container">
-
-<h2>Struktur Pengurus</h2>
-
-<div class="pengurus-grid">
-
-<div class="anggota">
-<img src="https://i.pravatar.cc/250?img=10">
-<h3>Ketua Kelas</h3>
-<p>Nama Ketua</p>
-</div>
-
-<div class="anggota">
-<img src="https://i.pravatar.cc/250?img=11">
-<h3>Wakil Ketua</h3>
-<p>Nama Wakil</p>
-</div>
-
-<div class="anggota">
-<img src="https://i.pravatar.cc/250?img=12">
-<h3>Sekretaris</h3>
-<p>Nama Sekretaris</p>
-</div>
-
-<div class="anggota">
-<img src="https://i.pravatar.cc/250?img=13">
-<h3>Bendahara</h3>
-<p>Nama Bendahara</p>
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<section id="galeri">
-
-<div class="container">
-
-<h2>Galeri Kegiatan</h2>
-
-<div class="gallery">
-
-<img src="https://picsum.photos/500/300?1">
-<img src="https://picsum.photos/500/300?2">
-<img src="https://picsum.photos/500/300?3">
-<img src="https://picsum.photos/500/300?4">
-<img src="https://picsum.photos/500/300?5">
-<img src="https://picsum.photos/500/300?6">
-
-</div>
-
-</div>
-
-</section>
-
-<section id="kontak">
-
-<div class="container">
-
-<h2>Hubungi Kami</h2>
-
-<form>
-
-<input type="text" placeholder="Nama">
-
-<input type="email" placeholder="Email">
-
-<textarea placeholder="Pesan"></textarea>
-
-<button type="submit">
-Kirim Pesan
-</button>
-
-</form>
-
-</div>
-
-</section>
-
-<footer>
-
-<h3>Kelas C Sistem Informasi 2023</h3>
-
-<p>
-Universitas Duta Bangsa Surakarta
-</p>
-
-</footer>
-
-<script src="script.js"></script>
-
-function counter(id,target){
-
-let count=0;
-
-let interval=setInterval(()=>{
-
-count++;
-
-document.getElementById(id).innerText=count;
-
-if(count>=target){
-clearInterval(interval);
-}
-
-},40);
-
-}
-
-window.onload=function(){
-
-counter("mahasiswa",35);
-counter("event",20);
-counter("proyek",10);
-
-}
-
-document.querySelector("form").addEventListener("submit",function(e){
-
-e.preventDefault();
-
-alert("Pesan berhasil dikirim!");
-
-this.reset();
-
-});
-</body>
-</html>
+    <nav>
+        <div class="logo">SI-C '23</div>
+        <ul class="nav-links">
+            <li><a href="#home">Beranda</a></li>
+            <li><a href="#about">Tentang</a></li>
+            <li><a href="#structure">Struktur</a></li>
+            <li><a href="#gallery">Galeri</a></li>
+        </ul>
+    </nav>
+
+    <header id="home">
+        <h1>SISTEM INFORMASI <span>KELAS C</span></h1>
+        <p>Universitas Duta Bangsa Surakarta • Angkatan 2023</p>
+        <div class="typing-text" id="typing"></div>
+        <br><br>
+        <a href="#about" class="btn-explore">Jelajahi Kelas</a>
+    </header>
+
+    <section id="about">
+        <h2 class="section-title">Tentang Kami</h2>
+        <div class="about-container">
+            <div class="about-text">
+                <h3>Solid, Kreatif, dan Berintegritas</h3>
+                <p>Kami adalah keluarga besar Sistem Informasi Kelas C Angkatan 2023 Universitas Duta Bangsa Surakarta. Berdiri di atas fondasi teknologi, kami berkomitmen untuk saling mendukung dalam mengembangkan potensi akademis dan kreativitas digital guna menghadapi era transformasi teknologi industri.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="structure">
+        <h2 class="section-title">Struktur Organisasi</h2>
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-icon">👨‍💼</div>
+                <h3>Ketua Kelas</h3>
+                <p>Nama Ketua</p>
+                <p style="font-size: 0.8rem; margin-top: 10px;">"Memimpin dengan visi, berjalan dengan aksi."</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">👩‍💼</div>
+                <h3>Wakil Ketua</h3>
+                <p>Nama Wakil</p>
+                <p style="font-size: 0.8rem; margin-top: 10px;">"Siap menyokong dan menjaga keharmonisan kelas."</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">👩‍💻</div>
+                <h3>Sekretaris</h3>
+                <p>Nama Sekretaris</p>
+                <p style="font-size: 0.8rem; margin-top: 10px;">"Mencatat jejak, merapikan administrasi kelas."</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">💰</div>
+                <h3>Bendahara</h3>
+                <p>Nama Bendahara</p>
+                <p style="font-size: 0.8rem; margin-top: 10px;">"Uang kas aman, program kelas berjalan lancar."</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <h2 class="section-title">Galeri Kegiatan</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80" alt="Belajar Bersama">
+                <div class="gallery-overlay"><p>Belajar Bersama</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80" alt="Makrab Kelas">
+                <div class="gallery-overlay"><p>Makrab & Gathering</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80" alt="Presentasi Proyek">
+                <div class="gallery-overlay"><p>Presentasi Tugas</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80" alt="Solidaritas">
+                <div class="gallery-overlay"><p>Kekompakan Kami</p></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 SI-C 2023 Universitas Duta Bangsa Surakarta. Created with ❤️ by Anak IT.</p>
+    </footer>
+
+    <script>
+        // --- ANIMASI TYPING EFFECT ---
+        const phrases = [
+            "Code, Create, and Connect.",
+            "We Build The Future with System Information.",
+            "Solidaritas Tanpa Batas!"
+        ];
+        let i = 0;
+        let timer;
+
+        function typingEffect() {
+            let word = phrases[i].split("");
+            var loopTyping = function() {
+                if (word.length > 0) {
+                    document.getElementById('typing').innerHTML += word.shift();
+                } else {
+                    setTimeout(deletingEffect, 2000);
+                    return false;
+                }
+                timer = setTimeout(loopTyping, 100);
+            };
+            loopTyping();
+        }
+
+        function deletingEffect() {
+            let word = phrases[i].split("");
+            var loopDeleting = function() {
+                if (word.length > 0) {
+                    word.pop();
+                    document.getElementById('typing').innerHTML = word.join("");
+                } else {
+                    if (phrases.length > (i + 1)) {
+                        i++;
+                    } else {
+                        i = 0;
+                    }
+                    setTimeout(typingEffect, 500);
+                    return
